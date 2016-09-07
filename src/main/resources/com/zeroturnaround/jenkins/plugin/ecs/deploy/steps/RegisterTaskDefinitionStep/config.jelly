@@ -1,0 +1,29 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:f="/lib/form">
+    <f:entry field="family" title="Task Definition family">
+        <f:textbox />
+    </f:entry>
+
+    <f:section title="Task definition source">
+        <f:radioBlock name="taskDefinitionSource" value="FILE" checked="${instance.isTaskDefinitionSource('FILE')}" title="From file" inline="true">
+            <f:nested>
+                <f:entry title="Path" field="taskDefinitionFile">
+                    <f:textbox/>
+                </f:entry>
+            </f:nested>
+        </f:radioBlock>
+        <f:radioBlock name="taskDefinitionSource" value="EXISTING_TASK_DEFINITION" checked="${instance.isTaskDefinitionSource('EXISTING_TASK_DEFINITION')}" title="From existing task definition" inline="true">
+            <f:nested>
+                <f:entry title="name" field="taskDefinitionId" description="Allowed types are: family, family:revision or ARN">
+                    <f:textbox />
+                </f:entry>
+            </f:nested>
+        </f:radioBlock>
+    </f:section>
+
+    <f:section title="Optional JSONPath changes">
+        <f:entry field="changes">
+            <f:repeatableProperty field="changes" />
+        </f:entry>
+    </f:section>
+</j:jelly>

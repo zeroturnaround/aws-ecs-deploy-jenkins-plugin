@@ -1,0 +1,14 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:f="/lib/form">
+    <f:entry field="cluster" title="Cluster">
+        <f:textbox />
+    </f:entry>
+
+    <f:entry field="service" title="Service">
+        <f:textbox />
+    </f:entry>
+
+    <f:entry field="taskDefinition" title="Task Definition">
+        <f:textbox />
+    </f:entry>
+</j:jelly>
