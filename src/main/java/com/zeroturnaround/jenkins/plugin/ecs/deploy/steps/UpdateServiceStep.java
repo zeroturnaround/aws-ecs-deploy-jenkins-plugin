@@ -98,7 +98,7 @@ public class UpdateServiceStep extends ECSStep {
 
                 if ("PRIMARY".equalsIgnoreCase(deployment.getStatus())) {
                     // Retry if it's PRIMARY and desired !== running
-                    shouldRetry = shouldRetry || deployment.getDesiredCount().equals(deployment.getRunningCount());
+                    shouldRetry = shouldRetry || !deployment.getDesiredCount().equals(deployment.getRunningCount());
                 } else {
                     // Retry if we found a non-primary task
                     shouldRetry = true;
