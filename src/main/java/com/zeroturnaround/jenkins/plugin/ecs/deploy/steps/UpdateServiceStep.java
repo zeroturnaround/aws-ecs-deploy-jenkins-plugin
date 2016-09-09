@@ -96,7 +96,13 @@ public class UpdateServiceStep extends ECSStep {
                         deployment.getCreatedAt()
                 );
 
-                shouldRetry = shouldRetry || !"PRIMARY".equalsIgnoreCase(deployment.getStatus());
+                if ("PRIMARY".equalsIgnoreCase(deployment.getStatus())) {
+                    // Retry if it's PRIMARY and desired !== running
+                    shouldRetry = shouldRetry || deployment.getDesiredCount().equals(deployment.getRunningCount());
+                } else {
+                    // Retry if we found a non-primary task
+                    shouldRetry = true;
+                }
             }
             logger.println(TABLE_LINE);
             logger.println();
