@@ -1,11 +1,11 @@
 package com.zeroturnaround.jenkins.plugin.ecs.deploy.steps;
 
+import com.amazonaws.protocol.json.SdkStructuredPlainJsonFactory;
 import com.amazonaws.services.ecs.AmazonECS;
 import com.amazonaws.services.ecs.model.ContainerDefinition;
 import com.amazonaws.services.ecs.model.DescribeTaskDefinitionRequest;
 import com.amazonaws.services.ecs.model.DescribeTaskDefinitionResult;
 import com.amazonaws.services.ecs.model.RegisterTaskDefinitionRequest;
-import com.amazonaws.services.ecs.model.RegisterTaskDefinitionResult;
 import com.amazonaws.services.ecs.model.TaskDefinition;
 import com.amazonaws.services.ecs.model.Volume;
 import com.amazonaws.services.ecs.model.transform.TaskDefinitionJsonUnmarshaller;
@@ -13,12 +13,9 @@ import com.amazonaws.transform.JsonUnmarshallerContext;
 import com.amazonaws.transform.JsonUnmarshallerContextImpl;
 import com.amazonaws.util.json.Jackson;
 import com.fasterxml.jackson.core.JsonParser;
-import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.TypeRef;
-import com.jayway.jsonpath.spi.json.JacksonJsonProvider;
-import com.jayway.jsonpath.spi.mapper.JacksonMappingProvider;
 import com.zeroturnaround.jenkins.plugin.ecs.deploy.JSONPathChange;
 import hudson.AbortException;
 import hudson.Extension;
@@ -54,10 +51,6 @@ public class RegisterTaskDefinitionStep extends ECSStep {
 
     private final List<JSONPathChange> changes;
 
-    public String isTaskDefinitionSource(String value) {
-        return (taskDefinitionSource != null ? taskDefinitionSource : "FILE").equalsIgnoreCase(value) ? "true" : "";
-    }
-
     @Override
     public void perform(AmazonECS ecs, AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener) throws InterruptedException, IOException {
         String taskDefinitionSource = getTaskDefinition(build, ecs);
@@ -83,7 +76,7 @@ public class RegisterTaskDefinitionStep extends ECSStep {
         try {
             JsonParser jsonParser = Jackson.getObjectMapper().getFactory().createParser(json);
 
-            JsonUnmarshallerContext unmarshallerContext = new JsonUnmarshallerContextImpl(jsonParser);
+            JsonUnmarshallerContext unmarshallerContext = new JsonUnmarshallerContextImpl(jsonParser, SdkStructuredPlainJsonFactory.JSON_SCALAR_UNMARSHALLERS, null);
             taskDefinition = TaskDefinitionJsonUnmarshaller.getInstance().unmarshall(unmarshallerContext);
         } catch (Exception e) {
             throw new AbortException("Can't unmarshall task definition");
