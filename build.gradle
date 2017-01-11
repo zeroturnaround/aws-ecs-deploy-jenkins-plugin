@@ -34,12 +34,12 @@ repositories {
 dependencies {
     compileOnly "org.projectlombok:lombok:1.16.10"
 
-    compileOnly "com.amazonaws:aws-java-sdk-ecs:1.10.16"
+    compileOnly "com.amazonaws:aws-java-sdk-ecs:1.11.68"
 
     compile "com.jayway.jsonpath:json-path:2.2.0"
 
     jenkinsPlugins "org.jenkins-ci.plugins:token-macro:1.5.1@jar"
-    jenkinsPlugins "org.jenkins-ci.plugins:aws-java-sdk:1.10.16@jar"
+    jenkinsPlugins "org.jenkins-ci.plugins:aws-java-sdk:1.11.68@jar"
     jenkinsPlugins "org.jenkins-ci.plugins:credentials:1.21@jar"
     jenkinsPlugins "org.jenkins-ci.plugins:aws-credentials:1.16@jar"
 }
