@@ -4,6 +4,10 @@
         <f:textbox />
     </f:entry>
 
+    <f:entry title="Role ARN" field="roleArn">
+        <f:textbox />
+    </f:entry>
+
     <f:section title="Task definition source">
         <f:radioBlock name="taskDefinitionSource" value="FILE" checked="${instance.isTaskDefinitionSource('FILE')}" title="From file" inline="true">
             <f:nested>

@@ -43,6 +43,8 @@ public class RegisterTaskDefinitionStep extends ECSStep {
 
     private final String family;
 
+    private final String roleArn;
+
     private final String taskDefinitionFile;
 
     private final String taskDefinitionId;
@@ -83,7 +85,7 @@ public class RegisterTaskDefinitionStep extends ECSStep {
         }
 
         RegisterTaskDefinitionRequest request = new RegisterTaskDefinitionRequest()
-                .withContainerDefinitions(taskDefinition.getContainerDefinitions())
+                .withContainerDefinitions(taskDefinition.getContainerDefinitions()).withExecutionRoleArn(roleArn)
                 .withVolumes(taskDefinition.getVolumes());
 
         try {
