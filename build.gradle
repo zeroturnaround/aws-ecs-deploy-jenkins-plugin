@@ -1,20 +1,33 @@
-plugins {
-    id "java"
-    id "org.jenkins-ci.jpi" version "0.18.1"
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "gradle.plugin.org.jenkins-ci.tools:gradle-jpi-plugin:0.28.1"
+    }
+    
+    ext {
+        lombokVersion = '1.18.4'
+    }
 }
+
+apply plugin: "java"
+apply plugin: "org.jenkins-ci.jpi"
 
 group = "org.jenkins-ci.plugins"
 description = "AWS Elastic Container Service deployment plugin"
 
-sourceCompatibility = 1.6
-targetCompatibility = 1.6
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 jenkinsPlugin {
     shortName = "aws-ecs-deploy"
     displayName = description
     url = "https://github.com/zeroturnaround/aws-ecs-deploy-jenkins-plugin"
 
-    coreVersion = "1.609.3"
+    coreVersion = "2.150.2"
 
     disabledTestInjection = true
 
@@ -29,17 +42,21 @@ jenkinsPlugin {
 
 repositories {
     jcenter()
+    mavenCentral()
 }
 
 dependencies {
-    compileOnly "org.projectlombok:lombok:1.16.10"
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
-    compileOnly "com.amazonaws:aws-java-sdk-ecs:1.11.68"
+    compileOnly "com.amazonaws:aws-java-sdk-ecs:1.11.486"
 
-    compile "com.jayway.jsonpath:json-path:2.2.0"
+    compile "com.jayway.jsonpath:json-path:2.4.0"
 
-    jenkinsPlugins "org.jenkins-ci.plugins:token-macro:1.5.1@jar"
-    jenkinsPlugins "org.jenkins-ci.plugins:aws-java-sdk:1.11.68@jar"
-    jenkinsPlugins "org.jenkins-ci.plugins:credentials:1.21@jar"
-    jenkinsPlugins "org.jenkins-ci.plugins:aws-credentials:1.16@jar"
+    jenkinsPlugins "org.jenkins-ci.plugins:token-macro:2.5@jar"
+    jenkinsPlugins "org.jenkins-ci.plugins:aws-java-sdk:1.11.457@jar"
+    jenkinsPlugins "org.jenkins-ci.plugins:credentials:2.1.18@jar"
+    jenkinsPlugins "org.jenkins-ci.plugins:aws-credentials:1.24@jar"
 }
