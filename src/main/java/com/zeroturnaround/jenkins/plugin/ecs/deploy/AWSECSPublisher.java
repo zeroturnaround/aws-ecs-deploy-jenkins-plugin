@@ -61,7 +61,7 @@ public class AWSECSPublisher extends Builder {
     @Override
     public boolean perform(AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener) throws InterruptedException, IOException {
         AmazonWebServicesCredentials credentials = CredentialsMatchers.firstOrNull(
-                CredentialsProvider.lookupCredentials(AmazonWebServicesCredentials.class, Jenkins.getInstance(), ACL.SYSTEM, (List<DomainRequirement>) null),
+                CredentialsProvider.lookupCredentials(AmazonWebServicesCredentials.class, Jenkins.get(), ACL.SYSTEM, (List<DomainRequirement>) null),
                 CredentialsMatchers.withId(credentialsId)
         );
 
@@ -105,7 +105,7 @@ public class AWSECSPublisher extends Builder {
         }
 
         public ListBoxModel doFillCredentialsIdItems(@AncestorInPath ItemGroup<?> context) {
-            AccessControlled accessControlled = context instanceof AccessControlled ? (AccessControlled) context : Jenkins.getInstance();
+            AccessControlled accessControlled = context instanceof AccessControlled ? (AccessControlled) context : Jenkins.get();
 
             if (!accessControlled.hasPermission(Computer.CONFIGURE)) {
                 return new ListBoxModel();
